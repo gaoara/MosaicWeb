@@ -12,9 +12,26 @@
 </head>
 <body>
 
-replytext : <input type="text" id="replytext"><br>
-replyer : <input type="text" id="replyer" value="USER01"/>
-<button id="addReply" class="btn btn-primary">add Reply</button>
+<div class="panel panel-primary">
+	<div class="panel-heading">
+	<h1>댓글 추가</h1>
+	</div>
+	<div class="panel-body">
+		<div class="form-group">
+			<label for="replytext">replytext : </label> 
+			<input class="form-control" type="text" id="replytext"><br>
+		</div>
+		
+		<div class="form-group">
+			<label for="replyer">replyer : </label>
+			<input class="form-control" type="text" id="replyer" value="USER01"/>
+		</div>
+		
+		<button id="addReply" class="btn btn-primary">add Reply</button>	
+	</div>
+</div>
+
+
 
 <script type="text/javascript">
 	
@@ -24,6 +41,29 @@ replyer : <input type="text" id="replyer" value="USER01"/>
 		var replyer = $('#replyer').val();
 		
 		alert("bno = " + bno + ", replytext = " + replytext + ", replyer = " + replyer);
+		
+		var options = {
+			url : "/replies",
+			type : "POST", 
+			headers : {
+				"Content-Type" : "application/json"	
+			},
+			processData : false,
+			data : JSON.stringify({			// JSON을 String 으로 변환
+				bno : bno,
+				replytext : replytext,
+				replyer : replyer
+			}),
+			success : function(result) {
+				console.log(result);
+				if (result == "SUCCESS") {
+					self.location = "/sboard/readPage?bno=1";
+				}
+// 				alert("result = " + result);
+			}
+		};
+		
+		$.ajax(options);
 	});
 </script>
 
